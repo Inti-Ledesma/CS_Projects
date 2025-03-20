@@ -19,7 +19,7 @@ namespace Calculator
             double num2;
             double result;
 
-            Console.WriteLine(" ---------------------------------------\n"+
+            Console.WriteLine("\n ---------------------------------------\n"+
                               "  Welcome to my Calculator program! :D\n"+
                               " ---------------------------------------");
             while (true) {
