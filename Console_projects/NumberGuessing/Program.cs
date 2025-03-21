@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Dice_game.Dice_Game_Library;
+using static NumberGuessing.NumberGuessingLib;
 
-namespace Dice_game
+namespace NumberGuessing
 {
     internal class Program
     {
@@ -15,10 +14,7 @@ namespace Dice_game
             int option;
             while (true)
             {
-                Console.Write("       +-----------------+\n" +
-                              "       |  The Dice Game  |\n" +
-                              "       +-----------------+\n" +
-                                    $"{menuText}");
+                Console.Write(titleText + menuText);
                 while (!int.TryParse(Console.ReadLine(), out option) || option < 1 || option > 3)
                 {
                     Console.Clear();
@@ -27,7 +23,7 @@ namespace Dice_game
                 }
                 Console.Clear();
 
-                if (option == 1) { DiceGame(); }
+                if (option == 1) { NumberGuessingGame(); }
                 else if (option == 2) { DisplayInstructions(); }
                 else { break; }
             }

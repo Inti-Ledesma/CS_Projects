@@ -96,7 +96,6 @@ namespace Dice_game
                 case -1:
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("\n CPU wins!");
-                    Console.ForegroundColor = ConsoleColor.Gray;
                     break;
                 case 0:
                     Console.WriteLine("\n It's a draw!");
@@ -104,9 +103,9 @@ namespace Dice_game
                 case 1:
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("\n You win!");
-                    Console.ForegroundColor = ConsoleColor.Gray;
                     break;
             }
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
         static void IncreaseScores(int winner, ref int playerScore, ref int cpuScore)
         {
@@ -122,7 +121,7 @@ namespace Dice_game
                     break;
             }
         }
-        public static void WriteExitMessage()
+        static void WriteExitMessage()
         {
             Console.WriteLine("\n Do you want to try again?");
             Console.ForegroundColor = ConsoleColor.Green;

@@ -40,7 +40,7 @@ namespace Calculator
                 Console.ReadLine();
                 Console.Clear();
             }
-            Console.Write("\n Thank for using the app, have a great day!");
+            Console.Write("\n Thank you for using the app, have a great day!");
             Console.ReadKey();
         }
     }
