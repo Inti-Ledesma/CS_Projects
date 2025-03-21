@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator", "Calculator\Calculator.csproj", "{8F258C40-2902-4F74-BD1C-B4F3E911E841}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dice game", "Dice game\Dice game.csproj", "{5FF9C3EC-3B8D-4A0C-AAA9-921F081D0442}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{8F258C40-2902-4F74-BD1C-B4F3E911E841}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F258C40-2902-4F74-BD1C-B4F3E911E841}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F258C40-2902-4F74-BD1C-B4F3E911E841}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FF9C3EC-3B8D-4A0C-AAA9-921F081D0442}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FF9C3EC-3B8D-4A0C-AAA9-921F081D0442}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FF9C3EC-3B8D-4A0C-AAA9-921F081D0442}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FF9C3EC-3B8D-4A0C-AAA9-921F081D0442}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
