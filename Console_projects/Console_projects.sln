@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dice game", "Dice game\Dice
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumberGuessing", "NumberGuessing\NumberGuessing.csproj", "{216894DF-D8C0-4231-8B46-C23B28F8F733}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HangmanGame", "HangmanGame\HangmanGame.csproj", "{B74747F2-FE6B-4D88-A3F5-944B21D688E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{216894DF-D8C0-4231-8B46-C23B28F8F733}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{216894DF-D8C0-4231-8B46-C23B28F8F733}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{216894DF-D8C0-4231-8B46-C23B28F8F733}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B74747F2-FE6B-4D88-A3F5-944B21D688E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B74747F2-FE6B-4D88-A3F5-944B21D688E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B74747F2-FE6B-4D88-A3F5-944B21D688E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B74747F2-FE6B-4D88-A3F5-944B21D688E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

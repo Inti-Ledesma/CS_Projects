@@ -18,7 +18,7 @@ namespace NumberGuessing
                                         " 2. Instructions\n" +
                                         " 3. Exit\n" +
                                         " Option selected: ";
-        public static void NumberGuessingGame()
+        public static void ExecuteGame()
         {
             int exit=1;
             while (exit!=0)

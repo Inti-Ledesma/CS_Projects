@@ -14,7 +14,7 @@ namespace Dice_game
                                         " 2. Instructions\n" +
                                         " 3. Exit\n" +
                                         " Option selected: ";
-        public static void DiceGame()
+        public static void ExecuteGame()
         {
             while (true)
             {

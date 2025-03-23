@@ -23,7 +23,7 @@ namespace NumberGuessing
                 }
                 Console.Clear();
 
-                if (option == 1) { NumberGuessingGame(); }
+                if (option == 1) { ExecuteGame(); }
                 else if (option == 2) { DisplayInstructions(); }
                 else { break; }
             }
