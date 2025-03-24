@@ -19,7 +19,7 @@ namespace HangmanGame
 
                 if (option == 1) { ExecuteGame(); }
                 else if (option == 2) { DisplayInstructions(); }
-                else { Console.Clear(); break; }
+                else { break; }
                 Console.Clear();
             }
             Console.Write("\n Thank you for using the app, have a great day!");

@@ -10,9 +10,9 @@ namespace HangmanGame
 {
     internal class HangmanLib
     {
-        static string titleText = "     +--------------------+\n" +
-                                  "     |  The hangman game  |\n" +
-                                  "     +--------------------+\n";
+        static string titleText = "\n     +--------------------+\n" +
+                                    "     |  The hangman game  |\n" +
+                                    "     +--------------------+\n";
         static string menuText = "\n Choose what would you like to do:\n" +
                                  " 1. Play the game\n" +
                                  " 2. Instructions\n" +
@@ -44,6 +44,7 @@ namespace HangmanGame
                 Console.Write("\n Please select a valid option!\n");
                 Console.Write(menuText);
             }
+            Console.Clear();
 
             return option;
         }
@@ -66,14 +67,9 @@ namespace HangmanGame
                 {
                     Console.Write(sbHangman);
                     Console.WriteLine(convertedWord);
-                    Console.Write("\n Letters: ");
-                    foreach (char i in chosenLettersList)
-                    {
-                        if (!(chosenLettersList.IndexOf(i) == 0)) { Console.Write($" - {i}"); }
-                        else { Console.Write($"{i}"); }    
-                    }
+                    DisplayListOfLetter(chosenLettersList);
 
-                    letter = char.ToLower(GetValidLetter("\n\n Press a letter to guess the word: "));
+                    letter = char.ToLower(GetValidLetter("\n Press a letter to guess the word: "));
                     while (chosenLettersList.Contains(letter))
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
@@ -83,13 +79,14 @@ namespace HangmanGame
                     }
 
                     chosenLettersList.Add(letter);
+                    tries++;
                     if (selectedWord.Contains(letter))
                     {
                         convertedWord = CompleteWord(selectedWord, convertedWord, letter);
                         if (!convertedWord.Contains('_'))
                         {
                             Console.Clear();
-                            Console.WriteLine($"\n You solved the word \"{selectedWord}\"!");
+                            Console.WriteLine($"\n You solved the word \"{selectedWord}\"!\n");
                             break;
                         }
                     }
@@ -100,16 +97,19 @@ namespace HangmanGame
                         if (errors == 7)
                         {
                             Console.Clear();
-                            Console.WriteLine("\n You hanged the man! D: " +
-                                             $"The word was \"{selectedWord}\"");
+                            Console.WriteLine("\n You hanged the man! D:\n" +
+                                             $" The word was \"{selectedWord}\"\n");
                             break;
                         }
                     }
-                    tries++;
 
                     Console.Clear();
                 }
-                Console.WriteLine(sbHangman);
+
+                Console.WriteLine($" Letters guessed: {tries}   Errors: {errors}");
+                Console.Write(sbHangman);
+                Console.WriteLine(convertedWord);
+                DisplayListOfLetter(chosenLettersList);
                 if (SelectOption(exitMessage, 0, 1) == 0) { break; }
                 Console.Clear();
             }
@@ -195,6 +195,17 @@ namespace HangmanGame
             }
 
             return option;
+        }
+
+        static void DisplayListOfLetter(List<char> list)
+        {
+            Console.Write("\n Letters: ");
+            foreach (char i in list)
+            {
+                if (!(list.IndexOf(i) == 0)) { Console.Write($" - {i}"); }
+                else { Console.Write($"{i}"); }
+            }
+            Console.WriteLine();
         }
     }
 }
