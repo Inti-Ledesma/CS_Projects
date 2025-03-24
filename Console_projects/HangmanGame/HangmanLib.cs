@@ -11,13 +11,13 @@ namespace HangmanGame
     internal class HangmanLib
     {
         static string titleText = "     +--------------------+\n" +
-                                         "     |  The hangman game  |\n" +
-                                         "     +--------------------+\n";
+                                  "     |  The hangman game  |\n" +
+                                  "     +--------------------+\n";
         static string menuText = "\n Choose what would you like to do:\n" +
-                                        " 1. Play the game\n" +
-                                        " 2. Instructions\n" +
-                                        " 3. Exit\n" +
-                                        " Option selected: ";
+                                 " 1. Play the game\n" +
+                                 " 2. Instructions\n" +
+                                 " 3. Exit\n" +
+                                 " Option selected: ";
         static StringBuilder sbHangman = new StringBuilder(@"
  ╔══════╗
  ║       
@@ -118,7 +118,18 @@ namespace HangmanGame
         public static void DisplayInstructions()
         {
             Console.Clear();
-            Console.WriteLine("\n How to play:");
+            Console.Write("\n How to play:\n\n" +
+                          " In this game you'll have to guess a word by" +
+                          " entering the letters that make it up.\n\n" +
+                          " - If the letter is part of the word" +
+                          " it will be placed on its respective spot.\n" +
+                          " - If the letter is not part of the word" +
+                          " it will add a part to the hangman draw as an error\n\n" +
+                          " You have a maximum of 7 errors per word.\n\n" +
+                          " If you guess the word correctly you win!\n" +
+                          " But if you make too many mistakes the man will be hanged.\n" +
+                          " Try not to kill him please.\n\n" +
+                          " Press any key to go back to the menu...");
             Console.ReadKey();
         }
 
