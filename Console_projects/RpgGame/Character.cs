@@ -60,7 +60,7 @@ namespace RpgGame
                 if (this.currentHp > this.maxHp) { this.currentHp = this.maxHp; }
                 this.healPotions--;
 
-                Console.WriteLine($" {this.name}'s health: {this.currentHp}.");
+                Console.WriteLine($" {this.name}'s health: {this.currentHp}. ({this.healPotions} heal potions left)");
                 return 1;
             }
             Console.WriteLine($"\n {this.name} has no more heal potions to use.");

@@ -9,12 +9,76 @@ namespace RpgGame
     internal class RpgGameLib
     {
         private static readonly int mapLen = 20;
-        private static readonly List<int> enemiesPos = new List<int> { 84, 87, 71, 34, 116 };
-        private static readonly List<string> enemiesNames = new List<string>() { "Cell Guard 1",
-                                                                                 "Cell Guard 2",
-                                                                                 "Hallway Guard 1",
-                                                                                 "Hallway Guard 2",
+        private const string MAP = "  █████████████████\n" +
+                                   "  █   O█P     Ø   █\n" +
+                                   "  ██ ██████ ████ ██\n" +
+                                   "  █ Ø     █Ø█P█   █\n" +
+                                   "  ██ ████Ø█ █ █   █\n" +
+                                   "  █    ██     █ Ø █\n" +
+                                   "  ██████████████▒██\n";
+        private static readonly List<int> enemiesPos = new List<int> { 64, 89, 71, 34, 116 };
+        private static readonly List<string> enemiesNames = new List<string>() { "Cell Guard",
+                                                                                 "Cells Room Guard",
+                                                                                 "Short Hallway Guard",
+                                                                                 "Long Hallway Guard",
                                                                                  "Exit Guard" };
+        internal static void ExecuteGame()
+        {
+            StringBuilder sbMap = new StringBuilder(MAP);
+            Character player = new Character(30, 7, 10, 10, "Player");
+            List<Character> enemiesList = new List<Character>()
+            {
+                new Character(23, 5, 0, 0, "Cell Guard"),
+                new Character(19, 4, 0, 0, "Cells Room Guard"),
+                new Character(27, 6, 0, 0, "Short Hallway Guard"),
+                new Character(24, 5, 0, 0, "Long Hallway Guard"),
+                new Character(30, 7, 0, 0, "Exit Guard")
+            };
+
+            int playerIndex;
+            int objectPos;
+            int enemyPosOnList;
+            int fightResult;
+
+            while (true)
+            {
+                Console.Write("\n" + sbMap);
+                ConsoleKey keyPressed = Console.ReadKey(true).Key;
+
+                playerIndex = sbMap.ToString().IndexOf('O');
+
+                if (!IsWall(keyPressed, playerIndex, sbMap))
+                {
+                    objectPos = IsEnemy(keyPressed, playerIndex, sbMap);
+                    if (objectPos != -1)
+                    {
+                        enemyPosOnList = FindEnemyOnList(objectPos, enemiesList);
+                        fightResult = EngageFight(player, enemiesList[enemyPosOnList]);
+
+                        if (fightResult != -1)
+                        {
+                            Console.WriteLine($"\n You've killed the {enemiesList[enemyPosOnList].Name}");
+                            sbMap[objectPos] = ' ';
+                            enemiesList[enemyPosOnList] = null;
+                            enemiesList.Remove(enemiesList[enemyPosOnList]);
+                            Console.ReadKey(true);
+                        }
+                        else
+                        {
+                            Console.WriteLine($"\n You've died to {enemiesList[enemyPosOnList].Name}");
+                            Console.ReadKey(true);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        MovePlayer(keyPressed, playerIndex, ref sbMap);
+                    }
+                }
+
+                Console.Clear();
+            }
+        }
 
         internal static void MovePlayer(ConsoleKey direction, int playerPos, ref StringBuilder map)
         {
@@ -119,6 +183,7 @@ namespace RpgGame
                 if (player.IsDead) { return -1; }
 
                 Console.Clear();
+                Console.WriteLine("xD");
             }
         }
 
