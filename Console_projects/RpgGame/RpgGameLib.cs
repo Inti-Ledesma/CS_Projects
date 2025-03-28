@@ -16,28 +16,21 @@ namespace RpgGame
                                    "  ██ ████Ø█ █ █   █\n" +
                                    "  █    ██     █ Ø █\n" +
                                    "  ██████████████▒██\n";
-        private static readonly List<int> enemiesPos = new List<int> { 64, 89, 71, 34, 116 };
-        private static readonly List<string> enemiesNames = new List<string>() { "Cell Guard",
-                                                                                 "Cells Room Guard",
-                                                                                 "Short Hallway Guard",
-                                                                                 "Long Hallway Guard",
-                                                                                 "Exit Guard" };
         internal static void ExecuteGame()
         {
             StringBuilder sbMap = new StringBuilder(MAP);
-            Character player = new Character(30, 7, 10, 10, "Player");
+            Character player = new Character(30, 7, 10, 10, "Player", 26);
             List<Character> enemiesList = new List<Character>()
             {
-                new Character(23, 5, 0, 0, "Cell Guard"),
-                new Character(19, 4, 0, 0, "Cells Room Guard"),
-                new Character(27, 6, 0, 0, "Short Hallway Guard"),
-                new Character(24, 5, 0, 0, "Long Hallway Guard"),
-                new Character(30, 7, 0, 0, "Exit Guard")
+                new Character(23, 5, 0, 0, "Cell Guard", 64),
+                new Character(19, 4, 0, 0, "Cells Room Guard", 89),
+                new Character(27, 6, 0, 0, "Short Hallway Guard", 71),
+                new Character(24, 5, 0, 0, "Long Hallway Guard", 34),
+                new Character(30, 7, 0, 0, "Exit Guard", 116)
             };
 
-            int playerIndex;
-            int objectPos;
-            int enemyPosOnList;
+            int nextPos;
+            Character enemyOnList;
             int fightResult;
 
             while (true)
@@ -45,119 +38,77 @@ namespace RpgGame
                 Console.Write("\n" + sbMap);
                 ConsoleKey keyPressed = Console.ReadKey(true).Key;
 
-                playerIndex = sbMap.ToString().IndexOf('O');
+                nextPos = GetNextPosition(player.MapPos, keyPressed);
 
-                if (!IsWall(keyPressed, playerIndex, sbMap))
+                /*
+                 * '█' case represents the walls on the map
+                 * 'Ø' case represents the enemies on the map
+                 * 'P' case represents the heal potions on the map
+                 * '▒' case represents the exit on the map
+                 * default case is for the movement, updating the pos on the player object and the map
+                 */
+                switch (sbMap[nextPos])
                 {
-                    objectPos = IsEnemy(keyPressed, playerIndex, sbMap);
-                    if (objectPos != -1)
-                    {
-                        enemyPosOnList = FindEnemyOnList(objectPos, enemiesList);
-                        fightResult = EngageFight(player, enemiesList[enemyPosOnList]);
+                    case '█':
+                        break;
+                    case 'Ø':
+                        enemyOnList = FindEnemyOnList(nextPos, enemiesList);
+                        fightResult = EngageFight(player, enemyOnList);
 
                         if (fightResult != -1)
                         {
-                            Console.WriteLine($"\n You've killed the {enemiesList[enemyPosOnList].Name}");
-                            sbMap[objectPos] = ' ';
-                            enemiesList[enemyPosOnList] = null;
-                            enemiesList.Remove(enemiesList[enemyPosOnList]);
+                            Console.WriteLine($"\n You've killed the {enemyOnList.Name}");
+                            sbMap[nextPos] = ' ';
+                            enemyOnList = null;
+                            enemiesList.Remove(enemyOnList);
                             Console.ReadKey(true);
                         }
                         else
                         {
-                            Console.WriteLine($"\n You've died to {enemiesList[enemyPosOnList].Name}");
+                            Console.WriteLine($"\n You've died to {enemyOnList.Name}");
                             Console.ReadKey(true);
                             break;
                         }
-                    }
-                    else
-                    {
-                        MovePlayer(keyPressed, playerIndex, ref sbMap);
-                    }
+                        break;
+                    case 'P':
+                        break;
+                    case '▒':
+                        break;
+                    default:
+                        sbMap[nextPos] = 'O';
+                        sbMap[player.MapPos] = ' ';
+                        player.MapPos = nextPos;
+                        break;
                 }
 
                 Console.Clear();
             }
         }
 
-        internal static void MovePlayer(ConsoleKey direction, int playerPos, ref StringBuilder map)
+        internal static int GetNextPosition(int currentIndex, ConsoleKey direction)
         {
             switch (direction)
             {
                 case ConsoleKey.RightArrow:
-                    map[playerPos + 1] = 'O';
-                    map[playerPos] = ' ';
-                    break;
+                    return currentIndex + 1;
                 case ConsoleKey.LeftArrow:
-                    map[playerPos - 1] = 'O';
-                    map[playerPos] = ' ';
-                    break;
+                    return currentIndex - 1;
                 case ConsoleKey.UpArrow:
-                    map[playerPos - mapLen] = 'O';
-                    map[playerPos] = ' ';
-                    break;
+                    return currentIndex - mapLen;
                 case ConsoleKey.DownArrow:
-                    map[playerPos + mapLen] = 'O';
-                    map[playerPos] = ' ';
-                    break;
+                    return currentIndex + mapLen;
             }
+            return 0;
         }
 
-        internal static bool IsWall(ConsoleKey direction, int playerPos, StringBuilder map)
+        internal static Character FindEnemyOnList(int enemyPos, List<Character> enemiesList)
         {
-            switch (direction)
-            {
-                case ConsoleKey.RightArrow:
-                    if (map[playerPos + 1] == '█') { return true; }
-                    break;
-                case ConsoleKey.LeftArrow:
-                    if (map[playerPos - 1] == '█') { return true; }
-                    break;
-                case ConsoleKey.UpArrow:
-                    if (map[playerPos - mapLen] == '█') { return true; }
-                    break;
-                case ConsoleKey.DownArrow:
-                    if (map[playerPos + mapLen] == '█') { return true; }
-                    break;
-            }
-
-            return false;
-        }
-
-        internal static int IsEnemy(ConsoleKey direction, int playerPos, StringBuilder map)
-        {
-            switch (direction)
-            {
-                case ConsoleKey.RightArrow:
-                    if (map[playerPos + 1] == 'Ø') { return playerPos+1; }
-                    break;
-                case ConsoleKey.LeftArrow:
-                    if (map[playerPos - 1] == 'Ø') { return playerPos - 1; }
-                    break;
-                case ConsoleKey.UpArrow:
-                    if (map[playerPos - mapLen] == 'Ø') { return playerPos - mapLen; }
-                    break;
-                case ConsoleKey.DownArrow:
-                    if (map[playerPos + mapLen] == 'Ø') { return playerPos + mapLen; }
-                    break;
-            }
-
-            return -1;
-        }
-
-        internal static int FindEnemyOnList(int enemyPos, List<Character> enemiesList)
-        {
-            string enemyName = enemiesNames[enemiesPos.IndexOf(enemyPos)];
-            
             for (int i = 0; i < enemiesList.Count; i++)
             {
-                if (enemiesList[i] != null)
-                {
-                    if (enemiesList[i].Name == enemyName) { return i; }
-                }
+                if (enemiesList[i].MapPos == enemyPos) { return enemiesList[i]; }
             }
 
-            return -1;
+            return null;
         }
 
         static internal int EngageFight(Character player, Character enemy)
@@ -183,7 +134,6 @@ namespace RpgGame
                 if (player.IsDead) { return -1; }
 
                 Console.Clear();
-                Console.WriteLine("xD");
             }
         }
 

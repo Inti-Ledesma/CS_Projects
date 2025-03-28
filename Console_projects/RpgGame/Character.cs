@@ -15,18 +15,16 @@ namespace RpgGame
         private readonly int healPower;
         private int healPotions;
         private readonly string name;
+        private int mapPos;
         private readonly Random random;
 
         internal int CurrentHp { get { return this.currentHp; } }
         internal string Name { get { return this.name; } }
-        internal int HealPotions
-        { 
-            get { return this.healPotions; } 
-            set { this.healPotions = value; }
-        }
+        internal int HealPotions { get { return this.healPotions; } set { this.healPotions = value; } }
         internal bool IsDead { get { return this.currentHp <= 0; } }
+        internal int MapPos { get { return this.mapPos; } set { this.mapPos = value; } }
 
-        internal Character(int maxHp, int attackPower, int healPower, int healPotions, string unitName)
+        internal Character(int maxHp, int attackPower, int healPower, int healPotions, string unitName, int mapPos)
         {
             this.maxHp = maxHp;
             this.currentHp = this.maxHp;
@@ -35,6 +33,7 @@ namespace RpgGame
             this.healPotions = healPotions;
             this.name = unitName;
             this.random = new Random();
+            this.mapPos = mapPos;
         }
 
         internal void Attack(ref Character opponent)
