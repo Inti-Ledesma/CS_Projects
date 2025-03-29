@@ -19,7 +19,7 @@ namespace RpgGame
         internal static void ExecuteGame()
         {
             StringBuilder sbMap = new StringBuilder(MAP);
-            Character player = new Character(30, 7, 10, 10, "Player", 26);
+            Character player = new Character(30, 7, 10, 3, "Player", 26);
             List<Character> enemiesList = new List<Character>()
             {
                 new Character(23, 5, 0, 0, "Cell Guard", 64),
@@ -32,15 +32,15 @@ namespace RpgGame
             int nextPos;
             Character enemyOnList;
             int fightResult;
+            bool endGame = false;
 
-            while (true)
+            while (!endGame)
             {
                 Console.Write("\n" + sbMap);
                 ConsoleKey keyPressed = Console.ReadKey(true).Key;
-
                 nextPos = GetNextPosition(player.MapPos, keyPressed);
 
-                /*
+                /*  - Collision checking -
                  * '█' case represents the walls on the map
                  * 'Ø' case represents the enemies on the map
                  * 'P' case represents the heal potions on the map
@@ -59,20 +59,29 @@ namespace RpgGame
                         {
                             Console.WriteLine($"\n You've killed the {enemyOnList.Name}");
                             sbMap[nextPos] = ' ';
+                            // Deletes enemy's object reference
                             enemyOnList = null;
                             enemiesList.Remove(enemyOnList);
                             Console.ReadKey(true);
                         }
                         else
                         {
+                            endGame = true;
                             Console.WriteLine($"\n You've died to {enemyOnList.Name}");
                             Console.ReadKey(true);
                             break;
                         }
                         break;
                     case 'P':
+                        sbMap[nextPos] = ' ';
+                        player.HealPotions += 3;
+                        Console.WriteLine("\n You got 3 extra heal potions!");
+                        Console.ReadKey(true);
                         break;
                     case '▒':
+                        endGame = true;
+                        Console.WriteLine("\n You got out of the prision and defeated all guards!");
+                        Console.ReadKey(true);
                         break;
                     default:
                         sbMap[nextPos] = 'O';
