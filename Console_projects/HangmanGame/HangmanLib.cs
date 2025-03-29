@@ -10,28 +10,27 @@ namespace HangmanGame
 {
     internal class HangmanLib
     {
-        static string titleText = "\n     +--------------------+\n" +
-                                    "     |  The hangman game  |\n" +
-                                    "     +--------------------+\n";
-        static string menuText = "\n Choose what would you like to do:\n" +
-                                 " 1. Play the game\n" +
-                                 " 2. Instructions\n" +
-                                 " 3. Exit\n" +
-                                 " Option selected: ";
-        static StringBuilder sbHangman = new StringBuilder(@"
- ╔══════╗
- ║       
- ║       
- ║        
- ║        
- ║
- ╠════════╗
- ╚════════╝   ");
-        static string exitMessage = "\n Do you want to try again?\n" +
-                                    "   1. Yes! " +
-                                    "   0. Nah..." +
-                                    "\n Your choice: ";
-        static Random random = new Random();
+        private const string titleText = "\n     +--------------------+\n" +
+                                           "     |  The hangman game  |\n" +
+                                           "     +--------------------+\n";
+        private const string menuText = "\n Choose what would you like to do:\n" +
+                                          " 1. Play the game\n" +
+                                          " 2. Instructions\n" +
+                                          " 3. Exit\n" +
+                                          " Option selected: ";
+        private const string HANGMAN = " ╔══════╗\n"+
+                                       " ║       \n"+
+                                       " ║       \n"+
+                                       " ║        \n"+
+                                       " ║        \n"+
+                                       " ║\n"+
+                                       " ╠════════╗\n"+
+                                       " ╚════════╝   ";
+        private const string exitMessage = "\n Do you want to try again?\n" +
+                                           "   1. Yes! " +
+                                           "   0. Nah..." +
+                                           "\n Your choice: ";
+        static readonly Random random = new Random();
 
         public static int DisplayMenu()
         {
@@ -50,13 +49,15 @@ namespace HangmanGame
         }
         public static void ExecuteGame()
         {
+            StringBuilder sbHangman = new StringBuilder(HANGMAN);
             char[] parts = { '|', 'O', '|', '/', '\\', '/', '\\' };
-            int[] partsPos = { 21, 32, 43, 42, 44, 54, 56 };
+            int[] partsPos = { 18, 28, 38, 37, 39, 48, 50 };
             string[] words = { "plane", "guy", "thrombosis", "wall" };
             char letter;
 
             while (true)
             {
+                sbHangman = new StringBuilder(HANGMAN);
                 List<char> chosenLettersList = new List<char>();
                 string selectedWord = words[random.Next(0, words.Length)];
                 string convertedWord = ConvertWordToHangmanStyle(selectedWord);

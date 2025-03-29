@@ -12,6 +12,7 @@ namespace HangmanGame
     {
         static void Main()
         {
+            Console.Title = "The hangman game";
             int option;
             while (true)
             {
