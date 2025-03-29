@@ -50,7 +50,7 @@ namespace RpgGame
         internal static void ExecuteGame()
         {
             StringBuilder sbMap = new StringBuilder(MAP);
-            Character player = new Character(30, 7, 10, 3, "Player", 26);
+            Character player = new Character(30, 7, 10, 5, "Player", 26);
             List<Character> enemiesList = new List<Character>()
             {
                 new Character(23, 5, 0, 0, "Cell Guard", 64),
@@ -67,7 +67,7 @@ namespace RpgGame
 
             while (!endGame)
             {
-                Console.Write("\n" + sbMap);
+                Console.WriteLine($"\n{sbMap}");
                 do
                 {
                     ConsoleKey keyPressed = Console.ReadKey(true).Key;
@@ -87,11 +87,11 @@ namespace RpgGame
                         break;
                     case 'Ø':
                         enemyOnList = FindEnemyOnList(nextPos, enemiesList);
-                        fightResult = EngageFight(player, enemyOnList);
+                        fightResult = EngageFight(player, enemyOnList, sbMap);
                         
                         if (fightResult != -1)
                         {
-                            Console.WriteLine($"\n You've killed the {enemyOnList.Name}!");
+                            Console.WriteLine($"\n You've killed the '{enemyOnList.Name}'!");
                             sbMap[nextPos] = ' ';
                             // Deletes enemy's object reference
                             enemyOnList = null;
@@ -101,7 +101,7 @@ namespace RpgGame
                         else
                         {
                             endGame = true;
-                            Console.WriteLine($"\n You've died to {enemyOnList.Name} :(");
+                            Console.WriteLine($"\n You've died to '{enemyOnList.Name}' :(");
                             Console.ReadKey(true);
                             break;
                         }
@@ -109,7 +109,7 @@ namespace RpgGame
                     case 'P':
                         sbMap[nextPos] = ' ';
                         player.HealPotions += 3;
-                        Console.WriteLine($"\n You got 3 extra healing potions! {player.HealPotions}");
+                        Console.WriteLine($"\n You got 3 extra healing potions! ({player.HealPotions})");
                         Console.ReadKey(true);
                         break;
                     case '▒':
@@ -154,7 +154,7 @@ namespace RpgGame
             return null;
         }
 
-        private static int EngageFight(Character player, Character enemy)
+        private static int EngageFight(Character player, Character enemy, StringBuilder map)
         {
             string turnOptions = " What would you like to do?\n" +
                                  " 1. Attack   2. Heal\n" +
@@ -177,6 +177,7 @@ namespace RpgGame
                 if (player.IsDead) { return -1; }
 
                 Console.Clear();
+                Console.WriteLine($"\n{map}");
             }
         }
 
