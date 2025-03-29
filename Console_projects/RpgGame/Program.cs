@@ -15,7 +15,24 @@ namespace RpgGame
     {
         static void Main()
         {
-            ExecuteGame();
+            bool exit = false;
+            while (!exit)
+            {
+                switch (DisplayMenu())
+                {
+                    case 1:
+                        ExecuteGame();
+                        break;
+                    case 2:
+                        DisplayInstructions();
+                        break;
+                    case 3:
+                        exit = true;
+                        break;
+                }
+                Console.Clear();
+            }
+            Console.Write("\n Thank you for using the app, have a great day!");
             Console.ReadKey();
         }
     }

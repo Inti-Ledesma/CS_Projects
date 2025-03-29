@@ -8,7 +8,15 @@ namespace RpgGame
 {
     internal class RpgGameLib
     {
-        private static readonly int mapLen = 20;
+        private const string MENUTEXT = "\n     +--------------------+\n" +
+                                          "     |  The prisoner rpg  |\n" +
+                                          "     +--------------------+\n" +
+                                        "\n Choose what would you like to do:\n" +
+                                          " 1. Play the game\n" +
+                                          " 2. Instructions\n" +
+                                          " 3. Exit\n" +
+                                          " Option selected: ";
+        private const int MAPLEN = 20;
         private const string MAP = "  █████████████████\n" +
                                    "  █   O█P     Ø   █\n" +
                                    "  ██ ██████ ████ ██\n" +
@@ -16,6 +24,29 @@ namespace RpgGame
                                    "  ██ ████Ø█ █ █   █\n" +
                                    "  █    ██     █ Ø █\n" +
                                    "  ██████████████▒██\n";
+        internal static int DisplayMenu()
+        {
+            int option;
+
+            option = SelectOption(MENUTEXT, 1, 3);
+            Console.Clear();
+
+            return option;
+        }
+
+        internal static void DisplayInstructions()
+        {
+            Console.Clear();
+            Console.Write("\n How to play:\n\n" +
+                            " In this game you play as a prisoner who has to escape from their cell.\n\n" +
+                            " Your goal will be reaching the exit (▒).\n" +
+                            " To do so, you'll have to fight the guards (Ø) custoding the prison.\n" +
+                            " On your way you'll also find healing potions (P) to use during combat.\n\n" +
+                            " Good luck on your way to be free!\n\n" +
+                            " Press any button to continue...");
+            Console.ReadKey(true);
+        }
+
         internal static void ExecuteGame()
         {
             StringBuilder sbMap = new StringBuilder(MAP);
@@ -37,8 +68,11 @@ namespace RpgGame
             while (!endGame)
             {
                 Console.Write("\n" + sbMap);
-                ConsoleKey keyPressed = Console.ReadKey(true).Key;
-                nextPos = GetNextPosition(player.MapPos, keyPressed);
+                do
+                {
+                    ConsoleKey keyPressed = Console.ReadKey(true).Key;
+                    nextPos = GetNextPosition(player.MapPos, keyPressed);
+                }while (nextPos == -1);
 
                 /*  - Collision checking -
                  * '█' case represents the walls on the map
@@ -54,10 +88,10 @@ namespace RpgGame
                     case 'Ø':
                         enemyOnList = FindEnemyOnList(nextPos, enemiesList);
                         fightResult = EngageFight(player, enemyOnList);
-
+                        
                         if (fightResult != -1)
                         {
-                            Console.WriteLine($"\n You've killed the {enemyOnList.Name}");
+                            Console.WriteLine($"\n You've killed the {enemyOnList.Name}!");
                             sbMap[nextPos] = ' ';
                             // Deletes enemy's object reference
                             enemyOnList = null;
@@ -67,7 +101,7 @@ namespace RpgGame
                         else
                         {
                             endGame = true;
-                            Console.WriteLine($"\n You've died to {enemyOnList.Name}");
+                            Console.WriteLine($"\n You've died to {enemyOnList.Name} :(");
                             Console.ReadKey(true);
                             break;
                         }
@@ -75,12 +109,12 @@ namespace RpgGame
                     case 'P':
                         sbMap[nextPos] = ' ';
                         player.HealPotions += 3;
-                        Console.WriteLine("\n You got 3 extra heal potions!");
+                        Console.WriteLine($"\n You got 3 extra healing potions! {player.HealPotions}");
                         Console.ReadKey(true);
                         break;
                     case '▒':
                         endGame = true;
-                        Console.WriteLine("\n You got out of the prision and defeated all guards!");
+                        Console.WriteLine("\n You defeated all guards and got out of the prison!");
                         Console.ReadKey(true);
                         break;
                     default:
@@ -94,7 +128,7 @@ namespace RpgGame
             }
         }
 
-        internal static int GetNextPosition(int currentIndex, ConsoleKey direction)
+        private static int GetNextPosition(int currentIndex, ConsoleKey direction)
         {
             switch (direction)
             {
@@ -103,14 +137,14 @@ namespace RpgGame
                 case ConsoleKey.LeftArrow:
                     return currentIndex - 1;
                 case ConsoleKey.UpArrow:
-                    return currentIndex - mapLen;
+                    return currentIndex - MAPLEN;
                 case ConsoleKey.DownArrow:
-                    return currentIndex + mapLen;
+                    return currentIndex + MAPLEN;
             }
-            return 0;
+            return -1;
         }
 
-        internal static Character FindEnemyOnList(int enemyPos, List<Character> enemiesList)
+        private static Character FindEnemyOnList(int enemyPos, List<Character> enemiesList)
         {
             for (int i = 0; i < enemiesList.Count; i++)
             {
@@ -120,7 +154,7 @@ namespace RpgGame
             return null;
         }
 
-        static internal int EngageFight(Character player, Character enemy)
+        private static int EngageFight(Character player, Character enemy)
         {
             string turnOptions = " What would you like to do?\n" +
                                  " 1. Attack   2. Heal\n" +
@@ -146,7 +180,7 @@ namespace RpgGame
             }
         }
 
-        internal static int SelectOption(string prompt, int min, int max)
+        private static int SelectOption(string prompt, int min, int max)
         {
             int option;
 
