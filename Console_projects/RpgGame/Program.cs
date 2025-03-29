@@ -15,6 +15,7 @@ namespace RpgGame
     {
         static void Main()
         {
+            Console.Title = "The prisoner rpg";
             bool exit = false;
             while (!exit)
             {

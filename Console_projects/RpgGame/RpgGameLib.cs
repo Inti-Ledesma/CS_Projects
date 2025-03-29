@@ -159,15 +159,28 @@ namespace RpgGame
             string turnOptions = " What would you like to do?\n" +
                                  " 1. Attack   2. Heal\n" +
                                  " Option: ";
+            int option;
 
             Console.WriteLine($"\n Engaging fight with '{enemy.Name}'");
 
             while (true)
             {
                 Console.WriteLine($"\n <---- {player.Name}'s turn ---->");
-                if (SelectOption(turnOptions, 1, 2) == 1)
+                option = SelectOption(turnOptions, 1, 2);
+                while (option == 2 && player.HealPotions == 0)
+                {
+                    player.Heal();
+                    Console.ReadKey(true);
+                    Console.Clear();
+
+                    Console.WriteLine($"\n{map}");
+                    Console.WriteLine($"\n <---- {player.Name}'s turn ---->");
+                    option = SelectOption(turnOptions, 1, 2);
+                }
+                if (option == 1)
                 { player.Attack(ref enemy); }
                 else { player.Heal(); }
+
                 Console.ReadKey(true);
                 if (enemy.IsDead) { return 1; }
 
